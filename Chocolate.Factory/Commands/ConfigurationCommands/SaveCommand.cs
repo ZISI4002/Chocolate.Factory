@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 namespace Chocolate.Factory.Commands.ConfigurationCommands
 {
     public class SaveCommand : ICommand
-    {
+    { 
         private readonly ConfigurationViewModel _viewModel;
 
         public SaveCommand(ConfigurationViewModel viewModel)

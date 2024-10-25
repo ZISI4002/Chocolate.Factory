@@ -16,7 +16,7 @@ namespace Chocolate.Factory.Commands.ConfigurationCommands
         {
             _viewModel = viewModel;
         }
-
+         
         public bool CanExecute(object parameter)
         {
             return true;
