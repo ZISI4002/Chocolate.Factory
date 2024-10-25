@@ -331,7 +331,7 @@
             </Setter>
         </Style>
 
-        <Style TargetType="Button" x:Key="btnGreen">
+        <Style TargetType="Button" x:Key="BtnGreen">
             <Setter Property="Background" Value="#fff"/>
             <Setter Property="Foreground" Value="#000"/>
             <Setter Property="FontSize" Value="15"/>

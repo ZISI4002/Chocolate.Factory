@@ -15,16 +15,16 @@ namespace Chocolate.Factory.ViewModels
     {
         public ConfigurationViewModel()
         {
-            Model = new ConfigurationModel();
+            Configuration = new ConfigurationModel();
 
-            //TODO:save and cansel
             Cancel = new CancelCommand(this);
+            Save = new SaveCommand(this);
 
             SupportedDbTypes = Enum.GetValues(typeof(DatabaseType)).Cast<DatabaseType>().ToList();
 
 
         }
-        public ConfigurationModel Model { get; set; }
+        public ConfigurationModel Configuration { get; set; }
         public List<DatabaseType>SupportedDbTypes { get; set; }
 
         public ICommand Save { get; set; }
