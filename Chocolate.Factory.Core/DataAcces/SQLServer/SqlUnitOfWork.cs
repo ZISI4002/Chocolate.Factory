@@ -10,41 +10,42 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 {
     public class SqlUnitOfWork:IUnitOfWork
     {
-        private readonly string _conectonString;
-        public SqlUnitOfWork(string conectonString)
+        private readonly string _connectionString;
+        public SqlUnitOfWork(string connectionString)
         {
-            _conectonString = conectonString;
+            _connectionString = connectionString;
         }
 
-        public IProductRepository ProductRepository =>  new SqlProductRepository(_conectonString);
+        public IProductRepository ProductRepository =>  new SqlProductRepository(_connectionString);
 
-        public IIngredientRepository IngredientRepository =>  new SqlIngredientRepository(_conectonString);
+        public IIngredientRepository IngredientRepository =>  new SqlIngredientRepository(_connectionString);
 
-        public IDosageRepository DosageRepository =>  new SqlDosageRepository(_conectonString);
+        public IDosageRepository DosageRepository =>  new SqlDosageRepository(_connectionString);
 
-        public IMachineRepository MachineRepository =>  new SqlMachineRepository(_conectonString);
+        public IMachineRepository MachineRepository =>  new SqlMachineRepository(_connectionString);
 
-        public IWorkTimeRepository WorkTimeRepository =>  new SqlWorkTimeRepository(_conectonString);
+        public IWorkTimeRepository WorkTimeRepository =>  new SqlWorkTimeRepository(_connectionString);
 
-        public ICarRepository CarRepository =>  new SqlCarRepository(_conectonString);
+        public ICarRepository CarRepository =>  new SqlCarRepository(_connectionString);
 
-        public ICarWorkTimeRepository CarWorkTimeRepository =>  new SqlCarWorkTimeRepository(_conectonString);
+        public ICarWorkTimeRepository CarWorkTimeRepository =>  new SqlCarWorkTimeRepository(_connectionString);
 
+        public IUserRepository UserRepository => new SqlUserRepository(_connectionString);
         public bool CheckConnection()
         {
             try
             {
-                     SqlConnection sqlConnection = new SqlConnection(_conectonString);
-                     sqlConnection.Open();
+                 SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                sqlConnection.Open();
+
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
-            
-
         }
+
 
 
     }

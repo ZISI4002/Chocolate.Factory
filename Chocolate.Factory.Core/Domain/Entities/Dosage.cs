@@ -9,7 +9,7 @@ namespace Chocolate.Factory.Core.Domain.Entities
     public class Dosage
     {
         public int Id { get; set; }
-        public decimal Duantity { get; set; }
+        public decimal Quantity { get; set; }
         public decimal Deviation { get; set; }
         public Product Product { get; set; }
         public Ingredient Ingredient { get; set; }

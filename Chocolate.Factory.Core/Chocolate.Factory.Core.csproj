@@ -158,6 +158,7 @@
     <Compile Include="DataAcces\SQLServer\SqlMapper.cs" />
     <Compile Include="DataAcces\SQLServer\SqlProductRepository.cs" />
     <Compile Include="DataAcces\SQLServer\SqlUnitOfWork.cs" />
+    <Compile Include="DataAcces\SQLServer\SqlUserRepository.cs" />
     <Compile Include="DataAcces\SQLServer\SqlWorkTimeRepository.cs" />
     <Compile Include="Domain\Abstract\ICarRepository.cs" />
     <Compile Include="Domain\Abstract\ICarWorkTimeRepository.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Domain\Abstract\IMachineRepository.cs" />
     <Compile Include="Domain\Abstract\IProductRepository.cs" />
     <Compile Include="Domain\Abstract\IUnitOfWork.cs" />
+    <Compile Include="Domain\Abstract\IUserRepository.cs" />
     <Compile Include="Domain\Abstract\IWorkTimeRepository.cs" />
     <Compile Include="Domain\Entities\Car.cs" />
     <Compile Include="Domain\Entities\CarWorkTime.cs" />
@@ -173,10 +175,12 @@
     <Compile Include="Domain\Entities\Ingredient.cs" />
     <Compile Include="Domain\Entities\Machine.cs" />
     <Compile Include="Domain\Entities\Product.cs" />
+    <Compile Include="Domain\Entities\User.cs" />
     <Compile Include="Domain\Entities\WorkTime.cs" />
     <Compile Include="Domain\Enums\CarType.cs" />
     <Compile Include="Domain\Enums\DatabaseType.cs" />
     <Compile Include="Domain\Enums\MachinType.cs" />
+    <Compile Include="Domain\Enums\UseTimeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

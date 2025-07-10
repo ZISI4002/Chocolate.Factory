@@ -15,7 +15,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             return new Product
             {
-                Id = (int)reader["ID"],
+                Id = (int)reader["Id"],
                 Name = (string)reader["Name"],
                 CompanyName = (string)reader["CompanyName"],
                 StandartWeight = (decimal)reader["StandartWeight"]
@@ -27,9 +27,10 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             return new Ingredient
             {
-                Id = (int)reader["ID"],
+                Id = (int)reader["Id"],
                 Name = (string)reader["Name"],
-                AfterUse = (bool)reader["AfterUse"],
+                UseTime = (UseTimeType)(int)reader["UseTime"],
+
                 InStock = (decimal)reader["InStock"]
             };
         }
@@ -38,21 +39,21 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             return new Dosage
             {
-                Id = (int)reader["ID"],
-                Duantity = (decimal)reader["Duantity"],
+                Id = (int)reader["DosageId"],
+                Quantity = (decimal)reader["Quantity"],
                 Deviation = (decimal)reader["Deviation"],
                 Product = new Product
                 {
                     Id = (int)reader["ProductID"],
-                    Name = (string)reader["Name"],
+                    Name = (string)reader["ProductName"],
                     CompanyName = (string)reader["CompanyName"],
                     StandartWeight = (decimal)reader["StandartWeight"]
                 },
                 Ingredient=new Ingredient
                 {
                     Id = (int)reader["IngredientID"],
-                    Name = (string)reader["Name"],
-                    AfterUse = (bool)reader["AfterUse"],
+                    Name = (string)reader["IngredientName"],
+                    UseTime = (UseTimeType)(int)reader["UseTime"],
                     InStock = (decimal)reader["InStock"]
                 }
 
@@ -67,9 +68,9 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
                    return new Machine
                    {
                        Id = (int)reader["ID"],
-                       MachineType = (MachinType)reader["(MachinType"],
+                       MachineType = (MachinType)(int)reader["MachineType"],
                        BrandName = (string)reader["BrandName"],
-                       SerialNumber = (int)reader["SerialNumber"],
+                       SerialNumber = (string)reader["SerialNumber"],
                        HourlyElectricWaste = (int)reader["HourlyElectricWaste"],
                        UsePeriod = (int)reader["UsePeriod"],
                        PurchaseDate = (DateTime)reader["PurchaseDate"]
@@ -86,17 +87,17 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
                    return new WorkTime
                    {
                        Id = (int)reader["ID"],
-                       ThisDay = (DateTime)reader[" ThisDay"],
+                       ThisDay = (DateTime)reader["ThisDay"],
                        StartTime = (TimeSpan)reader["StartTime"],
-                       StopTime = (TimeSpan)reader[" StopTime"],
+                       StopTime = (TimeSpan)reader["StopTime"],
                        Production = (int)reader["Production"],
-                       IsInspected = (bool)reader[" IsInspected"],
+                       IsInspected = (bool)reader["IsInspected"],
                        Machine=new Machine
                        {
                            Id = (int)reader["ID"],
-                           MachineType = (MachinType)reader["(MachinType"],
+                           MachineType = (MachinType)(int)reader["MachineType"],
                            BrandName = (string)reader["BrandName"],
-                           SerialNumber = (int)reader["SerialNumber"],
+                           SerialNumber = (string)reader["SerialNumber"],
                            HourlyElectricWaste = (int)reader["HourlyElectricWaste"],
                            UsePeriod = (int)reader["UsePeriod"],
                            PurchaseDate = (DateTime)reader["PurchaseDate"]
@@ -114,9 +115,9 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             return new Car
             {
                 Id = (int)reader["ID"],
-                CarType = (CarType)reader["(CarType"],
+                CarType = (CarType)(int)reader["CarType"],
                 BrandName = (string)reader["BrandName"],
-                SerialNumber = (int)reader["SerialNumber"],
+                SerialNumber = (string)reader["SerialNumber"],
                 UsePeriod = (int)reader["UsePeriod"],
                 PurchaseDate = (DateTime)reader["PurchaseDate"]
 
@@ -132,18 +133,18 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             return new CarWorkTime
             {
                 Id = (int)reader["ID"],
-                ThisDay = (DateTime)reader[" ThisDay"],
+                ThisDay = (DateTime)reader["ThisDay"],
                 StartTime = (TimeSpan)reader["StartTime"],
-                StopTime = (TimeSpan)reader[" StopTime"],
-                TranslateProduction = (int)reader[" TranslateProduction"],
+                StopTime = (TimeSpan)reader["StopTime"],
+                TranslateProduction = (int)reader["TranslateProduction"],
                 WastedGas = (int)reader["WastedGas"],
-                IsInspected = (bool)reader[" IsInspected"],
+                IsInspected = (bool)reader["IsInspected"],
                 Car = new Car
                 {
                     Id = (int)reader["ID"],
-                    CarType = (CarType)reader["(CarType"],
+                    CarType = (CarType)(int)reader["CarType"],
                     BrandName = (string)reader["BrandName"],
-                    SerialNumber = (int)reader["SerialNumber"],
+                    SerialNumber = (string)reader["SerialNumber"],
                     UsePeriod = (int)reader["UsePeriod"],
                     PurchaseDate = (DateTime)reader["PurchaseDate"]
 
@@ -155,6 +156,18 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         }
 
 
+        internal static User MapUser(SqlDataReader reader)
+        {
+            return new User
+            {
+                Id = (int)reader["id"],
+                Username = (string)reader["username"],
+                PasswordHash = (string)reader["passwordHash"],
+                Created = (DateTime)reader["created"],
+
+
+            };
+        }
 
 
 

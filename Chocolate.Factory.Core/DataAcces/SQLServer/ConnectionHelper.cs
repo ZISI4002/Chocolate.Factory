@@ -14,8 +14,17 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
             return connection;
-
         }
 
+        // Дополнительный метод для выполнения запроса с автоматическим управлением соединением
+        internal static T ExecuteWithConnection<T>(string connectionString, Func<SqlConnection, T> executeQuery)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                return executeQuery(connection); // Выполнение запроса или операции
+            }
+        }
     }
+
 }

@@ -12,8 +12,6 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
     internal class SqlCarRepository : ICarRepository
     {
 
-
-
         private readonly string _connectionString;
         public SqlCarRepository(string connectionString)
         {
@@ -21,8 +19,9 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         }
         public void Add(Car car)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
             const string query = @"INSERT INTO Cars (CarType, BrandName, SerialNumber, UsePeriod, PurchaseDate)
+                                    output inserted.id
                                VALUES (@CarType, @BrandName, @SerialNumber, @UsePeriod, @PurchaseDate)";
              SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@CarType", car.CarType);
@@ -31,13 +30,13 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             cmd.Parameters.AddWithValue("@UsePeriod", car.UsePeriod);
             cmd.Parameters.AddWithValue("@PurchaseDate", car.PurchaseDate);
 
-            
-            cmd.ExecuteNonQuery();
+
+            car.Id = (int)cmd.ExecuteScalar();
         }
 
         public void Delete(int Id)
         {
-         SqlConnection connection = new SqlConnection(_connectionString);
+         SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
         const string query = @"DELETE FROM Cars WHERE Id = @Id";
          SqlCommand cmd = new SqlCommand(query, connection);
         cmd.Parameters.AddWithValue("@Id", Id);
@@ -83,7 +82,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
         public void Update(Car car)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
             const string query = @"UPDATE Cars SET CarType = @CarType, BrandName = @BrandName,
                                SerialNumber = @SerialNumber, UsePeriod = @UsePeriod, PurchaseDate = @PurchaseDate
                                WHERE Id = @Id";

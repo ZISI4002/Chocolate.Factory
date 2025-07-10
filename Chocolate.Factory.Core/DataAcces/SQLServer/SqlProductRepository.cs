@@ -25,6 +25,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
 
             const string query = @"insert into products(Name,CompanyName,StandartWeight)
+                            output inserted.id
                     values(@name,@companyName,@standartWeight)";
 
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -33,7 +34,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             cmd.Parameters.AddWithValue("companyName", product.CompanyName);
             cmd.Parameters.AddWithValue("standartWeight", product.StandartWeight);
 
-            cmd.ExecuteNonQuery();
+           product.Id=(int)cmd.ExecuteScalar();
         }
 
         public void Delete(int Id)
@@ -68,7 +69,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from products";
+            const string query = @" select * from products ";
             SqlCommand cmd = new SqlCommand(query, connection);
             SqlDataReader reader = cmd.ExecuteReader();
             List<Product> products = new List<Product>();

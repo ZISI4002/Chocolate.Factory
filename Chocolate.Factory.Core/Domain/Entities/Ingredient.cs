@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chocolate.Factory.Core.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Chocolate.Factory.Core.Domain.Entities
     {
         public int Id { get; set; } 
         public string Name { get; set; }
-        public bool AfterUse {  get; set; }
+        public UseTimeType UseTime {  get; set; }
         public decimal InStock { get; set; }
         
 

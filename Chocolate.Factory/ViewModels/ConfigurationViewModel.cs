@@ -11,17 +11,15 @@ using Chocolate.Factory.Models;
 
 namespace Chocolate.Factory.ViewModels
 {
-    public class ConfigurationViewModel
+    public class ConfigurationViewModel:BaseWindowViewModel
     {
-        public ConfigurationViewModel()
+        public ConfigurationViewModel(Window window):base(window) 
         {
             Configuration = new ConfigurationModel();
 
             Cancel = new CancelCommand(this);
             Save = new SaveCommand(this);
-
             SupportedDbTypes = Enum.GetValues(typeof(DatabaseType)).Cast<DatabaseType>().ToList();
-
 
         }
         public ConfigurationModel Configuration { get; set; }
@@ -30,6 +28,5 @@ namespace Chocolate.Factory.ViewModels
         public ICommand Save { get; set; }
         public ICommand Cancel { get; set; }
 
-        public Window Window { get; set; }
     }
 }

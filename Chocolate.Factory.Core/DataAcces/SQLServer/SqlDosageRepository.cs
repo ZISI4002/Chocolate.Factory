@@ -23,15 +23,17 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"insert into dosages(Duantity,Deviation,ProductId,IngredientId)
-                    values(@duantity,@deviation,@productId,@ingredientId)";
+            const string query = @"insert into dosages(Quantity,Deviation,ProductId,IngredientId)
+                                   output inserted.Id
+                             values(@quantity,@deviation,@productId,@ingredientId)";
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            cmd.Parameters.AddWithValue("duantity", dosage.Duantity);
+            cmd.Parameters.AddWithValue("quantity", dosage.Quantity);
             cmd.Parameters.AddWithValue("deviation", dosage.Deviation);
             cmd.Parameters.AddWithValue("productId", dosage.Product.Id);
             cmd.Parameters.AddWithValue("ingredientId", dosage.Ingredient.Id);
-            cmd.ExecuteNonQuery();
+            
+            dosage.Id=(int)cmd.ExecuteScalar();
         }
 
         public void Delete(int Id)
@@ -43,6 +45,8 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             cmd.Parameters.AddWithValue("Id", Id);
             cmd.ExecuteNonQuery();
         }
+
+   
 
         public Dosage Get(int Id)
         {
@@ -63,7 +67,17 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from dosages";
+            const string query = @"
+SELECT 
+    d.Id AS DosageId, d.Quantity, d.Deviation,
+    p.Id AS ProductID, p.Name AS ProductName, p.CompanyName, p.StandartWeight,
+    i.Id AS IngredientID, i.Name AS IngredientName, i.UseTime, i.InStock
+FROM Dosages d
+JOIN Products p ON d.ProductID = p.Id
+JOIN Ingredients i ON d.IngredientID = i.Id
+
+
+";
             SqlCommand cmd = new SqlCommand(query, connection);
             SqlDataReader reader = cmd.ExecuteReader();
             List<Dosage> dosages = new List<Dosage>();
@@ -85,9 +99,9 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 SELECT 
     i.Id AS IngredientId,
     i.Name AS IngredientName,
-    i.AfterUse,
+    i.UseTime,
     i.InStock,
-    d.Duantity,
+    d.Quantity,
     d.Deviation,
     p.Id AS ProductId,
     p.Name AS ProductName,
@@ -131,9 +145,9 @@ SELECT
     p.StandartWeight,
     i.Id AS IngredientId,
     i.Name AS IngredientName,
-    i.AfterUse,
+    i.UseTime,
     i.InStock,
-    d.Duantity,
+    d.Quantity,
     d.Deviation
 FROM 
     Products p

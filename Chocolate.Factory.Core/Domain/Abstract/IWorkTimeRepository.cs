@@ -10,7 +10,6 @@ namespace Chocolate.Factory.Core.Domain.Abstract
     public interface IWorkTimeRepository
     {
         void Add(WorkTime workTime);
-        void Update(WorkTime workTime);
         void Delete(int Id);
         WorkTime Get(int Id);
         List<WorkTime> GetAll();

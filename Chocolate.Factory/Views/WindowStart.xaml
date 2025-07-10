@@ -8,11 +8,17 @@
         Title="Check connection" Height="140" Width="320" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" Loaded="WindowLoaded">
     <Grid Background="WhiteSmoke">
-        <StackPanel Name="FirstPanel" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <TextBlock FontWeight="Black" Text="Connecting to server...." HorizontalAlignment="Center" FontSize="17"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="36*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="234*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="FirstPanel" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Margin="1,0,0,0" Grid.ColumnSpan="2" >
+            <TextBlock FontWeight="Black" Text="Connecting to the server" HorizontalAlignment="Center" FontSize="17"/>
             <ProgressBar Name="ProgressBar" IsIndeterminate="True"  Height="20" Margin="10,5,10,10" Background="Transparent"/>
         </StackPanel>
-        <StackPanel Name="SecondPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+        <StackPanel Name="SecondPanel" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Hidden" Grid.ColumnSpan="3" Margin="3,0,0,0" Grid.Column="1">
             <TextBlock FontWeight="Black" Text="Serverə qoşulma zamanı xəta!!!" HorizontalAlignment="Center" FontSize="17"/>
             <Button Margin="15" Content="Server Configuration" FontWeight="DemiBold" Name="BtnConfig" Cursor="Hand" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
                 <Button.Template>

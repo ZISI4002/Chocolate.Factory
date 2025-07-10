@@ -25,44 +25,46 @@ namespace Chocolate.Factory.Views
             InitializeComponent();
         }
 
-        private  void WindowLoaded(object sender, RoutedEventArgs e)
+        private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-
             Task.Run(() =>
             {
-                this.CheckServer();
-
                 ApplicationContext.Initialize();
 
+                this.CheckServer();
             });
         }
 
-        private void CheckServer()
+        private async void CheckServer()
         {
+            await Task.Delay(2000);
+
             if (ApplicationContext.UnitOfWork.CheckConnection())
             {
-                //TODO:open login window
-                return;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    LoginWindow window = new LoginWindow();
+                    LoginWindowViewModel loginWindowViewModel = new LoginWindowViewModel(window);
+                    window.DataContext = loginWindowViewModel;
+                    window.Show();
+                    this.Close();
+                });
+                        return;
+               
             }
 
-            Application.Current.Dispatcher.Invoke(() => 
-            { 
-                ConfigurationWindows windows = new ConfigurationWindows();
-                ConfigurationViewModel viewModel = new ConfigurationViewModel();
-                viewModel.Window = windows;
-                windows.DataContext= viewModel;
-                windows.DataContext = new ConfigurationViewModel();
-                windows.Show();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                ConfigurationWindows window = new ConfigurationWindows();
+                ConfigurationViewModel viewModel = new ConfigurationViewModel(window);
+                window.DataContext = viewModel;
+                window.Show();
 
                 this.Close();
             });
-
-
+            
            
+
         }
-
-
-
-
     }
 }

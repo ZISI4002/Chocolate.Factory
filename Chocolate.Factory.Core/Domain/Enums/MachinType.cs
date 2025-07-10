@@ -8,16 +8,16 @@ namespace Chocolate.Factory.Core.Domain.Enums
 {
     public enum MachinType :byte
     {
-        CocoaBeanCrushers = 10,
-        CocoaButterPresses = 20,
-        ChocolateConchingMachines = 30,
-        TemperingMachines = 40,
-        MoldingMachines = 50,
-        PackagingMachines = 60,
-        DryingEquipment = 70,
-        MixersforFillings = 80,
-        Packagingobots = 90,
-        ChocolateBarProductionLines = 100
+        CocoaBeanCrushers = 1,
+        CocoaButterPresses = 2,
+        ChocolateConchingMachines = 3,
+        TemperingMachines = 4,
+        MoldingMachines = 5,
+        PackagingMachines = 6,
+        DryingEquipment = 7,
+        MixersforFillings = 8,
+        Packagingobots = 9,
+        ChocolateBarProductionLines = 10
 
 
 

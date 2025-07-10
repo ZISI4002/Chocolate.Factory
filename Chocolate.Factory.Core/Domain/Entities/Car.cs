@@ -12,7 +12,7 @@ namespace Chocolate.Factory.Core.Domain.Entities
         public int Id { get; set; }
         public CarType CarType { get; set; }
         public string BrandName { get; set; }
-        public int SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
         public int UsePeriod { get; set; }
         public DateTime PurchaseDate { get; set; }
 

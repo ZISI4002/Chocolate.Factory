@@ -16,47 +16,52 @@ using Newtonsoft.Json;
 namespace Chocolate.Factory.Commands.ConfigurationCommands
 {
     public class SaveCommand : ICommand
-    { 
+    {
         private readonly ConfigurationViewModel _viewModel;
 
         public SaveCommand(ConfigurationViewModel viewModel)
         {
-            _viewModel= viewModel;
+            _viewModel = viewModel;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
+
             return true;
         }
 
         public void Execute(object parameter)
         {
-             string password=((PasswordBox)parameter).Password;
-            ConfigurationInfo configuration = new ConfigurationInfo()
-            {
+            
+                string password = ((PasswordBox)parameter).Password;
+                ConfigurationInfo configuration = new ConfigurationInfo
+                {
+                    ServerName = _viewModel.Configuration.ServerName,
+                    DatabaseName = _viewModel.Configuration.DatabaseName,
+                    DatabaseType = _viewModel.Configuration.DatabaseType,
+                    Password = password,
+                    Username = _viewModel.Configuration.Username,
+                    WindowsAuthentication = _viewModel.Configuration.WindowsAuthentication,
+                };
+
+                ConfigurationHelper.Write(configuration);
+
+                // Очистка поля пароля для безопасности
+                ((PasswordBox)parameter).Clear();
+
                 
 
-                ServerName = _viewModel.Configuration.ServerName,
-                DatabaseName = _viewModel.Configuration.DatabaseName,
-                DatabaseType = _viewModel.Configuration.DatabaseType,
-                Password = password,
-                Username = _viewModel.Configuration.Username,
-                WindowsAuthentication = _viewModel.Configuration.WindowsAuthentication
-            };
+                WindowStart windowStart = new WindowStart();
+                windowStart.Show();
+ 
+                _viewModel.Window.Close();
+              
 
-
-           ConfigurationHelper.Write(configuration);
-
-          WindowStart windowStart= new WindowStart();
-            windowStart.Show();
-
-            _viewModel.Window.Close();
-
-
+            
+            
         }
 
-       
     }
 }

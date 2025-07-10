@@ -21,18 +21,24 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"insert into machines(MachinType,BrandName,SerialNumber,HourlyElectricWaste,UsePeriod,PurchaseDate)
-                    values(@machinType,@brandName,@serialNumber,@hourlyElectricWaste,@usePeriod,@purchaseDate)";
+            const string query = @"insert into machines(MachineType, BrandName, SerialNumber, HourlyElectricWaste, UsePeriod, PurchaseDate)
+                           output inserted.id
+                           values(@machineType, @brandName, @serialNumber, @hourlyElectricWaste, @usePeriod, @purchaseDate)";
+
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            cmd.Parameters.AddWithValue("machineType", machine.MachineType);
-            cmd.Parameters.AddWithValue("brandName", machine.BrandName);
-            cmd.Parameters.AddWithValue("serialNumber", machine.SerialNumber);
-            cmd.Parameters.AddWithValue("hourlyElectricWaste", machine.HourlyElectricWaste);
-            cmd.Parameters.AddWithValue("usePeriod", machine.UsePeriod);
-            cmd.Parameters.AddWithValue("purchaseDate", machine.PurchaseDate);
-            cmd.ExecuteNonQuery();
+            // Добавляем параметры с правильным синтаксисом
+            cmd.Parameters.AddWithValue("@machineType", machine.MachineType);
+            cmd.Parameters.AddWithValue("@brandName", machine.BrandName);
+            cmd.Parameters.AddWithValue("@serialNumber", machine.SerialNumber);
+            cmd.Parameters.AddWithValue("@hourlyElectricWaste", machine.HourlyElectricWaste);
+            cmd.Parameters.AddWithValue("@usePeriod", machine.UsePeriod);
+            cmd.Parameters.AddWithValue("@purchaseDate", machine.PurchaseDate);
+
+            // Выполняем запрос и присваиваем результат
+            machine.Id = (int)cmd.ExecuteScalar();
         }
+
 
         public void Delete(int Id)
         {
@@ -79,7 +85,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"update machines set MachinType=@machinType,BrandName=@brandName,SerialNumber=@serialNumber,HourlyElectricWaste=@hourlyElectricWaste,UsePeriod=@usePeriod,PurchaseDate=@purchaseDate
+            const string query = @"update machines set MachineType=@machineType,BrandName=@brandName,SerialNumber=@serialNumber,HourlyElectricWaste=@hourlyElectricWaste,UsePeriod=@usePeriod,PurchaseDate=@purchaseDate
  where Id=@Id";
             SqlCommand cmd = new SqlCommand(query, connection);
 

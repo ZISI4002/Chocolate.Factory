@@ -23,8 +23,9 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
         public void Add(WorkTime workTime)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
-            const string query = @"INSERT INTO WorkTime (ThisDay, StartTime, StopTime, Production, IsInspected, MachineId)
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
+            const string query = @"INSERT INTO WorkTimes (ThisDay, StartTime, StopTime, Production, IsInspected, MachineId)
+                                          output inserted.id
                                VALUES (@ThisDay, @StartTime, @StopTime, @Production, @IsInspected, @MachineId)";
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@ThisDay", workTime.ThisDay);
@@ -34,13 +35,13 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             cmd.Parameters.AddWithValue("@IsInspected", workTime.IsInspected);
             cmd.Parameters.AddWithValue("@MachineId", workTime.Machine.Id);
 
-            cmd.ExecuteNonQuery();
+            workTime.Id = (int)cmd.ExecuteScalar();
         }
 
         public void Delete(int Id)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
-            const string query = @"DELETE FROM WorkTime WHERE Id = @Id";
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
+            const string query = @"DELETE FROM WorkTimes WHERE Id = @Id";
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@Id", Id);
             cmd.ExecuteNonQuery();
@@ -51,7 +52,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from WorkTime where Id=@Id";
+            const string query = @"select * from WorkTimes where Id=@Id";
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("Id", Id);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -66,7 +67,10 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from WorkTime";
+            const string query = @"SELECT WorkTimes.*, Machines.*
+                                    FROM WorkTimes
+               JOIN Machines ON WorkTimes.MachineId = Machines.Id;
+                   ";
             SqlCommand cmd = new SqlCommand(query, connection);
             SqlDataReader reader = cmd.ExecuteReader();
             List<WorkTime> workTime = new List<WorkTime>();
@@ -82,7 +86,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from WorkTime where MachineId=@machineId";
+            const string query = @"select * from WorkTimes where MachineId=@machineId";
 
 
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -98,23 +102,6 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
         }
 
-        public void Update(WorkTime workTime)
-        {
-                SqlConnection connection = new SqlConnection(_connectionString);
-            const string query = @"UPDATE WorkTime SET ThisDay = @ThisDay, StartTime = @StartTime, StopTime = @StopTime,
-                               Production = @Production, IsInspected = @IsInspected, MachineId = @MachineId
-                               WHERE Id = @Id";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@Id", workTime.Id);
-            cmd.Parameters.AddWithValue("@ThisDay", workTime.ThisDay);
-            cmd.Parameters.AddWithValue("@StartTime", workTime.StartTime);
-            cmd.Parameters.AddWithValue("@StopTime", workTime.StopTime);
-            cmd.Parameters.AddWithValue("@Production", workTime.Production);
-            cmd.Parameters.AddWithValue("@IsInspected", workTime.IsInspected);
-            cmd.Parameters.AddWithValue("@MachineId", workTime.Machine.Id);
-
-
-            cmd.ExecuteNonQuery();
-        }
+     
     }
 }

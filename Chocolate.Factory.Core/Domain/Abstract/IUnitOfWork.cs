@@ -15,8 +15,9 @@ namespace Chocolate.Factory.Core.Domain.Abstract
         IWorkTimeRepository WorkTimeRepository { get; }
         ICarRepository CarRepository { get; }
         ICarWorkTimeRepository CarWorkTimeRepository { get; }
+        IUserRepository UserRepository { get; }
 
-        bool CheckConnection();
+        bool CheckConnection() ;
 
     }
 }

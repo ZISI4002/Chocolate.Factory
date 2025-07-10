@@ -20,6 +20,13 @@ namespace Chocolate.Factory
         {
             ConfigurationInfo configurationInfo = ConfigurationHelper.Read();
 
+            if(configurationInfo== null) 
+            {
+                UnitOfWork = new SqlUnitOfWork("");
+                return;
+            }
+           
+
             SqlConnectionStringBuilder builder= new SqlConnectionStringBuilder
             {
                 TrustServerCertificate = true,
@@ -27,13 +34,14 @@ namespace Chocolate.Factory
                 InitialCatalog = configurationInfo.DatabaseName,
                 IntegratedSecurity = configurationInfo.WindowsAuthentication
             };
+
             if (configurationInfo.WindowsAuthentication == false)
             {
                 builder.UserID = configurationInfo.Username;
                 builder.Password = configurationInfo.Password;
             }
             
-            UnitOfWork = new SqlUnitOfWork("");
+            UnitOfWork = new SqlUnitOfWork(builder.ConnectionString);
         }
     }
 }

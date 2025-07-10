@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Chocolate.Factory.Views.CarWorkTimeUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chocolate.Factory.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="900">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <WrapPanel Height="60" HorizontalAlignment="Left">
+                <Button Content="Add" Command="{Binding OpenAddCarWorkTime}" FontSize="25" Height="40" Width="160" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+                <Button Content="Delete" Command="{Binding DeleteCarWorkTime}" FontSize="25" Height="40" Width="160" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+                <Button Content="Export" Command="{Binding ExportCarWorkTime}" FontSize="25" Height="40" Width="180" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+
+            </WrapPanel>
+            <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Margin="0 20 0 0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" Visibility="Visible">
+            <ListView x:Name="MainList" ItemsSource="{Binding CarWorkTimeModels}"
+                        Style="{StaticResource listViewCustom}" SelectedIndex="{Binding SelectedCarWorkTimeId}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id" Width="50"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ThisDay}" Header="Date" Width="250"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding StartTime}" Header="Start Time" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding StopTime}" Header="Stop Time" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding TranslateProduction}" Header="Translate Production" Width="200"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding WastedGas}" Header="Wasted Gas" Width="200"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding IsInspected}" Header="Inspected" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CarSerialNumber}" Header="CarSerialNumber" Width="200"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

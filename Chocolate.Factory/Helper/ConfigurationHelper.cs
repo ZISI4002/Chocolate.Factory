@@ -11,7 +11,8 @@ namespace Chocolate.Factory.Helper
 {
     internal static class ConfigurationHelper
     {
-        private const string _filePath = "chocolate.factory.settings";
+        private static string _fileDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ChocolateFactory");
+        private static string _filePath = Path.Combine( _fileDirectory,"chocolate.factory.settings");//  %AppData%\ChocolateFactory
         private static ConfigurationInfo _configuration;
 
         public static void Write(ConfigurationInfo config)
@@ -20,8 +21,13 @@ namespace Chocolate.Factory.Helper
              * JSON
              */
             string text = JsonConvert.SerializeObject(config);
+            if (Directory.Exists(_fileDirectory) == false)
+            {
+                Directory.CreateDirectory(_fileDirectory);
+            }
 
             File.WriteAllText(_filePath, text);
+            _configuration = null;
 
         }
 
@@ -31,10 +37,12 @@ namespace Chocolate.Factory.Helper
             {
                 return _configuration;
             }
-            if (File.Exists(_filePath)==false)
+
+            if (Directory.Exists(_fileDirectory)== false || File.Exists(_filePath) == false)
             {
                 return null;
             }
+           
 
             string text = File.ReadAllText(_filePath);
 

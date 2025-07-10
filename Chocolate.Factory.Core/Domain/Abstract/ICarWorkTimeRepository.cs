@@ -10,7 +10,6 @@ namespace Chocolate.Factory.Core.Domain.Abstract
     public interface ICarWorkTimeRepository
     {
         void Add(CarWorkTime carWorkTime);
-        void Update(CarWorkTime carWorkTime);
         void Delete(int Id);
         CarWorkTime Get(int Id);
         List<CarWorkTime> GetAll();

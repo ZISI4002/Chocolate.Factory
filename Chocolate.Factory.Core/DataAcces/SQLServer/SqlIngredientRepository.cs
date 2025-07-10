@@ -20,15 +20,15 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
               SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query= @"insert into ingredients(Name,AfterUse,InStock)
-                    values(@name,@afterUse,@inStock)";
+            const string query= @"insert into ingredients(Name,InStock,UseTime)
+                               output inserted.id
+                             values(@name,@inStock,@useTime)";
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            cmd.Parameters.AddWithValue("name", ingredient.Name);
-            cmd.Parameters.AddWithValue("afterUse", ingredient.AfterUse);
+            cmd.Parameters.AddWithValue("name", ingredient.Name); 
             cmd.Parameters.AddWithValue("inStock", ingredient.InStock);
-
-            cmd.ExecuteNonQuery();
+            cmd.Parameters.AddWithValue("useTime", ingredient.UseTime);
+            ingredient.Id = (int)cmd.ExecuteScalar();
 
         }
 
@@ -84,13 +84,13 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
 
 
 
-            const string query = @"update ingredients set Name= @name,AfterUse=@afterUse,InStock=@inStock
+            const string query = @"update ingredients set Name= @name,InStock=@inStock,UseTime=@useTime
                  where Id=@Id   ";
 
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("Id", ingredient.Id);
             cmd.Parameters.AddWithValue("name", ingredient.Name);
-            cmd.Parameters.AddWithValue("afterUse", ingredient.AfterUse);
+            cmd.Parameters.AddWithValue("useTime", ingredient.UseTime);
             cmd.Parameters.AddWithValue("inStock", ingredient.InStock);
 
             cmd.ExecuteNonQuery();

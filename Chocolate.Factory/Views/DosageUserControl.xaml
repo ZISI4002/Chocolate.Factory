@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Chocolate.Factory.Views.DosageUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chocolate.Factory.Views" xmlns:viewmodels="clr-namespace:Chocolate.Factory.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SaveProductViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1000">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <WrapPanel  Height="60" HorizontalAlignment="Left">
+                <Button Content="Add" Command="{Binding OpenAddDosage}" FontSize="25" Height="40" Width="160" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+                <Button Content="Delete" Command="{Binding DeleteDosage}" FontSize="25" Height="40" Width="160" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+                <Button Content="Export" Command="{Binding ExportDosage}" FontSize="25" Height="40" Width="180" Style="{StaticResource btnGreen}" Margin="15 0 15 0" VerticalAlignment="Center"/>
+
+            </WrapPanel>
+            <Line Stretch="Fill" Stroke="Black" X2="1" VerticalAlignment="Bottom" Margin="0 20 0 0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" Visibility="Visible">
+            <ListView x:Name="MainList" ItemsSource="{Binding DosageModels}"
+                        Style="{StaticResource listViewCustom}" SelectedIndex="{Binding SelectedDosageId}">
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn  DisplayMemberBinding="{Binding Id}"  Header="Id" Width="50"/>
+                        <GridViewColumn  DisplayMemberBinding="{Binding Quantity}" Header="Quantity(gr)" Width="150"/>
+                        <GridViewColumn  DisplayMemberBinding="{Binding Deviation}" Header="Deviation(gr)" Width="150"/>
+                        <GridViewColumn  DisplayMemberBinding="{Binding ProductName}" Header="Product Name" Width="200"/>
+                        <GridViewColumn  DisplayMemberBinding="{Binding IngredientName}" Header="Ingredient Name" Width="200"/>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

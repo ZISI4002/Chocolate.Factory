@@ -9,6 +9,7 @@ namespace Chocolate.Factory.Core.Domain.Abstract
 {
     public interface IDosageRepository
     {
+     
         void Add(Dosage dosage);
         void Delete(int Id);
         Dosage Get(int Id);

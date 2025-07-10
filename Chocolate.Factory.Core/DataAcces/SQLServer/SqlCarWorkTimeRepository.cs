@@ -19,10 +19,11 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         }
         public void Add(CarWorkTime carWorkTime)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
-            const string query = @"UPDATE CarWorkTime SET ThisDay = @ThisDay, StartTime = @StartTime, StopTime = @StopTime,
-                               TranslateProduction = @TranslateProduction, WastedGas = @WastedGas, IsInspected = @IsInspected, CarId = @CarId
-                               WHERE Id = @Id";
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
+            const string query = @"INSERT INTO CarWorkTimes (ThisDay, StartTime, StopTime, TranslateProduction, WastedGas, IsInspected, CarId)
+                                     output inserted.id
+                           VALUES (@ThisDay, @StartTime, @StopTime, @TranslateProduction, @WastedGas, @IsInspected, @CarId);
+                                          ";
          SqlCommand cmd = new SqlCommand(query, connection);
         cmd.Parameters.AddWithValue("@Id", carWorkTime.Id);
         cmd.Parameters.AddWithValue("@ThisDay", carWorkTime.ThisDay);
@@ -33,17 +34,17 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         cmd.Parameters.AddWithValue("@IsInspected", carWorkTime.IsInspected);
         cmd.Parameters.AddWithValue("@CarId", carWorkTime.Car.Id);
 
-            cmd.ExecuteNonQuery();
+            carWorkTime.Id = (int)cmd.ExecuteScalar();
         }
 
         public void Delete(int Id)
         {
-            SqlConnection connection = new SqlConnection(_connectionString);
-        const string query = @"DELETE FROM CarWorkTime WHERE Id = @Id";
+            SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
+        const string query = @"DELETE FROM CarWorkTimes WHERE Id = @Id";
         SqlCommand cmd = new SqlCommand(query, connection);
         cmd.Parameters.AddWithValue("@Id", Id);
 
-        connection.Open();
+        
         cmd.ExecuteNonQuery();
         }
 
@@ -51,7 +52,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from CarWorkTime where Id=@Id";
+            const string query = @"select * from CarWorkTimes where Id=@Id";
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("Id", Id);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -66,7 +67,10 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from CarWorkTime";
+            const string query = @"SELECT CarWorkTimes.*, Cars.*
+FROM CarWorkTimes
+JOIN Cars ON CarWorkTimes.CarId = Cars.Id;
+";
             SqlCommand cmd = new SqlCommand(query, connection);
             SqlDataReader reader = cmd.ExecuteReader();
             List<CarWorkTime> carWorkTimes = new List<CarWorkTime>();
@@ -82,7 +86,7 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
         {
             SqlConnection connection = ConnectionHelper.GetConnection(_connectionString);
 
-            const string query = @"select * from CarWorkTime where CarId=@carId";
+            const string query = @"select * from CarWorkTimes where CarId=@carId";
 
 
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -97,24 +101,6 @@ namespace Chocolate.Factory.Core.DataAcces.SQLServer
             return carWorkTimes;
         }
 
-        public void Update(CarWorkTime carWorkTime)
-        {
-            SqlConnection connection = new SqlConnection(_connectionString);
-        const string query = @"UPDATE CarWorkTime SET ThisDay = @ThisDay, StartTime = @StartTime, StopTime = @StopTime,
-                               TranslateProduction = @TranslateProduction, WastedGas = @WastedGas, IsInspected = @IsInspected, CarId = @CarId
-                               WHERE Id = @Id";
-        SqlCommand cmd = new SqlCommand(query, connection);
-        cmd.Parameters.AddWithValue("@Id", carWorkTime.Id);
-        cmd.Parameters.AddWithValue("@ThisDay", carWorkTime.ThisDay);
-        cmd.Parameters.AddWithValue("@StartTime", carWorkTime.StartTime);
-        cmd.Parameters.AddWithValue("@StopTime", carWorkTime.StopTime);
-        cmd.Parameters.AddWithValue("@TranslateProduction", carWorkTime.TranslateProduction);
-        cmd.Parameters.AddWithValue("@WastedGas", carWorkTime.WastedGas);
-        cmd.Parameters.AddWithValue("@IsInspected", carWorkTime.IsInspected);
-        cmd.Parameters.AddWithValue("@CarId", carWorkTime.Car.Id);
-
-        
-        cmd.ExecuteNonQuery();
-        }
+       
     }
 }
